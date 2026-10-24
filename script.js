@@ -1,4 +1,3 @@
-
 const $ = (id) => document.getElementById(id);
 
 const abilityFields = [
@@ -157,13 +156,20 @@ async function saveCardAsImage() {
       onclone: (clonedDoc) => {
         const clonedCard = clonedDoc.getElementById("card");
 
-        // 저장용 복제본만 가로형으로 고정
-        clonedCard.style.width = "900px";
-        clonedCard.style.minWidth = "900px";
-        clonedCard.style.maxWidth = "none";
-        clonedCard.style.gridTemplateColumns = "0.85fr 1.15fr";
-        clonedCard.style.height = "auto";
-        clonedCard.style.overflow = "hidden";
+        // 저장용 복제본을 가로형 모니터 비율로 고정
+clonedCard.style.width = "1200px";
+clonedCard.style.minWidth = "1200px";
+clonedCard.style.maxWidth = "1200px";
+clonedCard.style.height = "675px";
+clonedCard.style.minHeight = "675px";
+clonedCard.style.maxHeight = "none";
+clonedCard.style.boxSizing = "border-box";
+clonedCard.style.gridTemplateColumns = "0.85fr 1.15fr";
+clonedCard.style.overflow = "hidden";
+clonedCard.style.gridTemplateColumns = "0.85fr 1.15fr";
+clonedCard.style.overflow = "hidden";
+
+const artwork = clonedCard.querySelector(".artwork");
 
         const artwork = clonedCard.querySelector(".artwork");
         if (artwork) {
