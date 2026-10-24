@@ -1,3 +1,4 @@
+
 const $ = (id) => document.getElementById(id);
 
 const abilityFields = [
@@ -91,7 +92,7 @@ function setupCardImage() {
       image.id = "outCardImage";
       image.alt = "도감 이미지";
       image.style.cssText =
-        "display:block;width:100%;max-height:240px;object-fit:contain;margin:12px auto;border-radius:8px;";
+        "display:block;width:100%;max-height:180px;object-fit:contain;margin:8px auto;border-radius:8px;";
       area.appendChild(image);
     }
 
@@ -115,7 +116,7 @@ document.querySelectorAll(".editor input, .editor textarea")
     field.addEventListener("change", updateCard);
   });
 
-// PNG 저장: 휴대폰에서도 가로형 레이아웃으로 캡처
+// PNG 저장: 가로형 16:9
 async function saveCardAsImage() {
   updateCard();
 
@@ -135,7 +136,6 @@ async function saveCardAsImage() {
       }
     });
 
-    // 이미지 로딩이 끝날 때까지 기다림
     const images = Array.from(card.querySelectorAll("img"));
 
     await Promise.all(images.map((img) => {
@@ -148,46 +148,51 @@ async function saveCardAsImage() {
     }));
 
     const canvas = await window.html2canvas(card, {
-      scale: 3,
+      scale: 2,
       backgroundColor: "#100d18",
       useCORS: true,
       logging: false,
+      width: 1200,
+      height: 675,
       windowWidth: 1200,
+      windowHeight: 800,
+
       onclone: (clonedDoc) => {
         const clonedCard = clonedDoc.getElementById("card");
 
-        // 저장용 복제본을 가로형 모니터 비율로 고정
-clonedCard.style.width = "1200px";
-clonedCard.style.minWidth = "1200px";
-clonedCard.style.maxWidth = "1200px";
-clonedCard.style.height = "675px";
-clonedCard.style.minHeight = "675px";
-clonedCard.style.maxHeight = "none";
-clonedCard.style.boxSizing = "border-box";
-clonedCard.style.gridTemplateColumns = "0.85fr 1.15fr";
-clonedCard.style.overflow = "hidden";
-clonedCard.style.gridTemplateColumns = "0.85fr 1.15fr";
-clonedCard.style.overflow = "hidden";
-
-const artwork = clonedCard.querySelector(".artwork");
+        // 카드 전체를 가로형 모니터 비율로 고정
+        clonedCard.style.setProperty("display", "grid", "important");
+        clonedCard.style.setProperty("grid-template-columns", "42% 58%", "important");
+        clonedCard.style.setProperty("width", "1200px", "important");
+        clonedCard.style.setProperty("min-width", "1200px", "important");
+        clonedCard.style.setProperty("max-width", "1200px", "important");
+        clonedCard.style.setProperty("height", "675px", "important");
+        clonedCard.style.setProperty("min-height", "675px", "important");
+        clonedCard.style.setProperty("max-height", "675px", "important");
+        clonedCard.style.setProperty("box-sizing", "border-box", "important");
+        clonedCard.style.setProperty("overflow", "hidden", "important");
 
         const artwork = clonedCard.querySelector(".artwork");
         if (artwork) {
-          artwork.style.height = "650px";
-          artwork.style.minHeight = "650px";
-          artwork.style.maxHeight = "650px";
+          artwork.style.setProperty("height", "675px", "important");
+          artwork.style.setProperty("min-height", "0", "important");
+          artwork.style.setProperty("max-height", "675px", "important");
+          artwork.style.setProperty("overflow", "hidden", "important");
         }
 
         const record = clonedCard.querySelector(".record");
         if (record) {
-          record.style.padding = "28px 24px";
-          record.style.minWidth = "0";
+          record.style.setProperty("height", "675px", "important");
+          record.style.setProperty("min-width", "0", "important");
+          record.style.setProperty("min-height", "0", "important");
+          record.style.setProperty("box-sizing", "border-box", "important");
+          record.style.setProperty("overflow", "hidden", "important");
+          record.style.setProperty("padding", "20px", "important");
         }
 
-        // 저장 이미지에 버튼은 포함하지 않음
         clonedCard.querySelectorAll("button, .card-image-picker")
           .forEach((item) => {
-            item.style.display = "none";
+            item.style.setProperty("display", "none", "important");
           });
       }
     });
