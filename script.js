@@ -143,11 +143,20 @@ async function saveCardAsImage() {
       }
     });
 
-    const canvas = await window.html2canvas($("card"), {
-      scale: 2,
-      backgroundColor: "#100d18",
-      useCORS: true
+const canvas = await window.html2canvas($("card"), {
+  scale: 2,
+  backgroundColor: "#100d18",
+  useCORS: true,
+  logging: true,
+  onclone: (clonedDoc) => {
+    clonedDoc.querySelectorAll("canvas").forEach((item) => {
+      if (item.width === 0 || item.height === 0) {
+        item.width = 1;
+        item.height = 1;
+      }
     });
+  }
+});
 
     const filename = valueOr("characterName", "fantasy-record")
       .replace(/[\\/:*?"<>|]/g, "_");
