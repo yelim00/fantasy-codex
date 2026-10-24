@@ -1,3 +1,4 @@
+
 const $ = (id) => document.getElementById(id);
 
 const abilityFields = [
@@ -43,7 +44,7 @@ function updateCard() {
   });
 }
 
-// 왼쪽에서 고른 캐릭터 이미지를 표시
+// 왼쪽 캐릭터 이미지
 function setupCharacterImage() {
   const input = $("characterImage");
   const image = $("outImage");
@@ -72,20 +73,12 @@ function setupCharacterImage() {
   });
 }
 
-// 오른쪽에서 고른 별도 이미지를 기록 영역에 표시
+// 오른쪽 기록 이미지
 function setupCardImage() {
   const input = $("cardImageInput");
   let image = $("outCardImage");
   let currentUrl = "";
-
-  // 이미지 표시 공간을 확보
-  let area = $("recordImageArea");
-
-  if (!area) {
-    area = document.createElement("div");
-    area.id = "recordImageArea";
-    $("outName").parentNode.insertBefore(area, $("outName").nextSibling);
-  }
+  const area = $("recordImageArea");
 
   input.addEventListener("change", () => {
     const file = input.files && input.files[0];
@@ -119,12 +112,11 @@ function setupCardImage() {
 document.querySelectorAll(".editor input, .editor textarea")
   .forEach((field) => {
     if (field.type === "file") return;
-
     field.addEventListener("input", updateCard);
     field.addEventListener("change", updateCard);
   });
 
- // PNG 저장
+// PNG 저장: 휴대폰에서도 가로형 레이아웃으로 캡처
 async function saveCardAsImage() {
   updateCard();
 
@@ -133,6 +125,7 @@ async function saveCardAsImage() {
     return;
   }
 
+  const card = $("card");
   const buttons = [$("saveImage"), $("saveImageBottom")];
 
   try {
@@ -143,20 +136,55 @@ async function saveCardAsImage() {
       }
     });
 
-const canvas = await window.html2canvas($("card"), {
-  scale: 2,
-  backgroundColor: "#100d18",
-  useCORS: true,
-  logging: true,
-  onclone: (clonedDoc) => {
-    clonedDoc.querySelectorAll("canvas").forEach((item) => {
-      if (item.width === 0 || item.height === 0) {
-        item.width = 1;
-        item.height = 1;
+    // 이미지 로딩이 끝날 때까지 기다림
+    const images = Array.from(card.querySelectorAll("img"));
+
+    await Promise.all(images.map((img) => {
+      if (img.complete) return Promise.resolve();
+
+      return new Promise((resolve) => {
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+    }));
+
+    const canvas = await window.html2canvas(card, {
+      scale: 3,
+      backgroundColor: "#100d18",
+      useCORS: true,
+      logging: false,
+      windowWidth: 1200,
+      onclone: (clonedDoc) => {
+        const clonedCard = clonedDoc.getElementById("card");
+
+        // 저장용 복제본만 가로형으로 고정
+        clonedCard.style.width = "900px";
+        clonedCard.style.minWidth = "900px";
+        clonedCard.style.maxWidth = "none";
+        clonedCard.style.gridTemplateColumns = "0.85fr 1.15fr";
+        clonedCard.style.height = "auto";
+        clonedCard.style.overflow = "hidden";
+
+        const artwork = clonedCard.querySelector(".artwork");
+        if (artwork) {
+          artwork.style.height = "650px";
+          artwork.style.minHeight = "650px";
+          artwork.style.maxHeight = "650px";
+        }
+
+        const record = clonedCard.querySelector(".record");
+        if (record) {
+          record.style.padding = "28px 24px";
+          record.style.minWidth = "0";
+        }
+
+        // 저장 이미지에 버튼은 포함하지 않음
+        clonedCard.querySelectorAll("button, .card-image-picker")
+          .forEach((item) => {
+            item.style.display = "none";
+          });
       }
     });
-  }
-});
 
     const filename = valueOr("characterName", "fantasy-record")
       .replace(/[\\/:*?"<>|]/g, "_");
@@ -173,8 +201,6 @@ const canvas = await window.html2canvas($("card"), {
 
     link.href = url;
     link.download = `${filename}-도감.png`;
-    link.style.display = "none";
-
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -193,12 +219,12 @@ const canvas = await window.html2canvas($("card"), {
   }
 }
 
-
 $("saveImage").addEventListener("click", saveCardAsImage);
 $("saveImageBottom").addEventListener("click", saveCardAsImage);
 
 setupCharacterImage();
 setupCardImage();
 updateCard();
+
 console.log("도감 이미지 입력:", $("cardImageInput"));
 console.log("도감 이미지 영역:", $("recordImageArea"));
