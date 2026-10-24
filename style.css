@@ -200,7 +200,7 @@ textarea:focus {
 .rule {
   height: 1px;
   margin: 18px 0;
-  background: linear-gradient(90deg, #ad8bd3, transparent);
+  background: #ad8bd3;
 }
 
 .record h3 {
