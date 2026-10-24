@@ -1,10 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>섀도우 코어</title>
   <link rel="stylesheet" href="./style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 <div class="app">
@@ -31,65 +33,53 @@
       </label>
 
       <h3>고유 능력</h3>
-
       <label>능력 1
         <input id="ability1" placeholder="능력 이름">
         <textarea id="desc1" placeholder="능력 설명"></textarea>
       </label>
-
       <label>능력 2
         <input id="ability2" placeholder="능력 이름">
         <textarea id="desc2" placeholder="능력 설명"></textarea>
       </label>
-
       <label>능력 3
         <input id="ability3" placeholder="능력 이름">
         <textarea id="desc3" placeholder="능력 설명"></textarea>
       </label>
-
       <label>능력 4
         <input id="ability4" placeholder="능력 이름">
         <textarea id="desc4" placeholder="능력 설명"></textarea>
       </label>
 
       <h3>궁극기</h3>
-
       <label>궁극기 이름
         <input id="ultimate" placeholder="궁극기 이름">
       </label>
-
       <label>궁극기 설명
         <textarea id="ultimateDesc" placeholder="궁극기 설명"></textarea>
       </label>
 
       <h3>펫 소개</h3>
-
       <label>펫 이름
         <input id="petName" placeholder="펫 이름">
       </label>
-
       <label>펫 설명
         <textarea id="petDesc" placeholder="외형, 성격, 능력"></textarea>
       </label>
 
-      <button id="saveImageBottom" type="button">
-        ✧ 이미지 저장
-      </button>
+      <button id="saveImageBottom" type="button">✧ 이미지 저장</button>
     </section>
 
     <section class="preview">
       <article id="card" class="card">
-
         <div class="artwork">
-          <img id="outImage" alt="캐릭터 일러스트">
+          <img id="outImage" alt="캐릭터 일러스트" style="display:none;">
 
           <div id="imagePlaceholder">
             <span>✧</span>
             <p>CHARACTER ILLUSTRATION</p>
             <small>이미지를 선택해 주세요</small>
-
             <label class="card-image-picker">
-               이미지 선택
+              이미지 선택
               <input id="cardImageInput" type="file" accept="image/*">
             </label>
           </div>
@@ -120,11 +110,11 @@
           <p class="record-footer">✦ YOUR STORY · YOUR POWER ✦</p>
           <button id="saveImage" type="button">✧ 이미지 저장</button>
         </div>
-
       </article>
     </section>
   </main>
 </div>
+
+<script src="./script.js"></script>
 </body>
-  <script src="./script.js"></script>
 </html>
