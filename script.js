@@ -123,7 +123,8 @@ document.querySelectorAll(".editor input, .editor textarea")
     field.addEventListener("input", updateCard);
     field.addEventListener("change", updateCard);
   });
-// PNG 저장
+
+ // PNG 저장
 async function saveCardAsImage() {
   updateCard();
 
@@ -148,16 +149,31 @@ async function saveCardAsImage() {
       useCORS: true
     });
 
-    const link = document.createElement("a");
     const filename = valueOr("characterName", "fantasy-record")
       .replace(/[\\/:*?"<>|]/g, "_");
 
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob((result) => {
+        if (result) resolve(result);
+        else reject(new Error("PNG 파일 생성 실패"));
+      }, "image/png");
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
     link.download = `${filename}-도감.png`;
-    link.href = canvas.toDataURL("image/png");
+    link.style.display = "none";
+
+    document.body.appendChild(link);
     link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
   } catch (error) {
     console.error(error);
-    alert("저장에 실패했어요. 다시 시도해 주세요.");
+    alert("저장에 실패했어요. 브라우저에서 다운로드를 허용하는지 확인해 주세요.");
   } finally {
     buttons.forEach((button) => {
       if (button) {
@@ -167,6 +183,7 @@ async function saveCardAsImage() {
     });
   }
 }
+
 
 $("saveImage").addEventListener("click", saveCardAsImage);
 $("saveImageBottom").addEventListener("click", saveCardAsImage);
