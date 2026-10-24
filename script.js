@@ -173,7 +173,6 @@ async function saveCardAsImage() {
     setTimeout(() => URL.revokeObjectURL(url), 60000);
   } catch (error) {
     console.error(error);
-    alert("저장에 실패했어요. 브라우저에서 다운로드를 허용하는지 확인해 주세요.");
     alert("저장 오류: " + error.message);
   } finally {
     buttons.forEach((button) => {
