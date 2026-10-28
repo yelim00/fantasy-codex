@@ -1,3 +1,4 @@
+
 const $ = (id) => document.getElementById(id);
 
 const abilityFields = [
@@ -49,7 +50,7 @@ document.querySelectorAll(".editor input, .editor textarea")
     field.addEventListener("change", updateCard);
   });
 
-// 가로형 도감 PNG 저장
+// 내용 전체가 들어가도록 도감 PNG 저장
 async function saveCardAsImage() {
   updateCard();
 
@@ -73,6 +74,7 @@ async function saveCardAsImage() {
       scale: 2,
       backgroundColor: "#100d18",
       logging: false,
+
       onclone: (clonedDoc) => {
         const clonedCard = clonedDoc.getElementById("card");
         const record = clonedCard?.querySelector(".record");
@@ -82,10 +84,10 @@ async function saveCardAsImage() {
             display: "block",
             width: "1200px",
             minWidth: "1200px",
-            height: "675px",
-            minHeight: "675px",
-            maxHeight: "675px",
-            overflow: "hidden",
+            height: "auto",
+            minHeight: "0",
+            maxHeight: "none",
+            overflow: "visible",
             boxSizing: "border-box"
           });
         }
@@ -93,9 +95,10 @@ async function saveCardAsImage() {
         if (record) {
           Object.assign(record.style, {
             width: "100%",
-            height: "100%",
+            height: "auto",
             minHeight: "0",
-            overflow: "hidden",
+            maxHeight: "none",
+            overflow: "visible",
             boxSizing: "border-box",
             padding: "28px 40px"
           });
