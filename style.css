@@ -1,3 +1,4 @@
+
 * {
   box-sizing: border-box;
 }
@@ -122,6 +123,12 @@ textarea:focus {
   box-shadow: 0 16px 50px #0009;
 }
 
+/* 칭호 표시 제거 */
+#outTitle,
+.rank {
+  display: none !important;
+}
+
 .record {
   width: 100%;
   min-width: 0;
@@ -136,11 +143,6 @@ textarea:focus {
   color: #f2e8ff;
   font-size: clamp(24px, 3vw, 34px);
   overflow-wrap: anywhere;
-}
-
-.rank {
-  color: #c7a5ef;
-  font-size: 14px;
 }
 
 .rule {
@@ -159,7 +161,7 @@ textarea:focus {
   margin: 10px 0;
 }
 
-.record p:not(.card-eyebrow):not(.rank):not(.record-footer) {
+.record p:not(.card-eyebrow):not(.record-footer) {
   color: #bdb1cd;
   font-size: 12px;
   line-height: 1.7;
