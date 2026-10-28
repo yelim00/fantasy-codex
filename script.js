@@ -1,4 +1,3 @@
-
 const $ = (id) => document.getElementById(id);
 
 const abilityFields = [
@@ -15,7 +14,6 @@ function valueOr(id, fallback) {
 
 function updateCard() {
   $("outName").textContent = valueOr("characterName", "이름 없는 기록자");
-  $("outTitle").textContent = valueOr("title", "미등록 칭호");
   $("outPet").textContent = valueOr("petName", "미등록 펫");
   $("outPetDesc").textContent = valueOr("petDesc", "아직 기록된 내용이 없습니다.");
 
